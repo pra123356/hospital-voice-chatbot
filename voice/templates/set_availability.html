@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Set Availability</title>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f8fc; font-family: Arial, sans-serif; }
+        .card { text-align: center; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 400px; }
+        h2 { margin-bottom: 20px; }
+        input, select { width: 90%; padding: 10px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; }
+        .btn { margin-top: 15px; padding: 10px 20px; border: none; background: #007bff; color: white; border-radius: 6px; cursor: pointer; width: 100%; }
+        .btn:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Set Availability</h2>
+        <form method="POST" action="{{ url_for('add_availability') }}">
+            <label for="date">Date:</label>
+            <input type="date" name="day" required><br>
+
+            <label for="start_time">Start Time:</label>
+            <input type="time" name="start_time" required><br>
+
+            <label for="end_time">End Time:</label>
+            <input type="time" name="end_time" required><br>
+
+            <label for="status">Status:</label>
+            <select name="status" required>
+                <option value="Available">Available</option>
+                <option value="Not Available">Not Available</option>
+            </select><br>
+
+            <button type="submit" class="btn">Save Availability</button>
+        </form>
+    </div>
+</body>
+</html>

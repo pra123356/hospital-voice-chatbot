@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Appointment</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e7f1ff 0%, #ffffff 40%, #d6eaff 100%);
+      background-attachment: fixed;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 50px;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    form {
+      background: white;
+      padding: 35px 45px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      width: 500px;
+      font-size: 22px;
+      margin-bottom: 37px;
+      text-align: left;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+      margin-top: 5px;
+    }
+
+    input[type="radio"] {
+      transform: scale(1.3);
+      margin-right: 8px;
+    }
+
+    input[type="text"], button {
+      padding: 10px;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 15px;
+      font-size: 18px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h2>Book Appointment</h2>
+
+  <form id="patientCheckForm" action="/appointment" method="POST">
+
+    <!-- Increased spacing here -->
+    <div style="text-align:center; margin-bottom: 35px;">
+      <img src="https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg"
+           alt="Doctor"
+           style="width: 200px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+    </div>
+
+    <label>Are you an existing patient?</label><br>
+    <input type="radio" name="existing" id="existingYes" value="yes"> Yes
+    <input type="radio" name="existing" id="existingNo" value="no"> No
+    <br><br>
+
+    <div id="aadharSection" class="hidden">
+      <label for="aadhar">Enter Aadhaar Number:</label>
+      <input type="text" id="aadhar" name="aadhar" placeholder="Enter 12-digit Aadhaar" maxlength="12" required>
+      <button type="submit">Continue</button>
+    </div>
+
+  </form>
+
+  <script>
+    const existingYes = document.getElementById("existingYes");
+    const existingNo = document.getElementById("existingNo");
+    const aadharSection = document.getElementById("aadharSection");
+    const form = document.getElementById("patientCheckForm");
+
+    existingYes.addEventListener("change", function() {
+      if (this.checked) {
+        aadharSection.classList.remove("hidden");
+      }
+    });
+
+    existingNo.addEventListener("change", function() {
+  if (this.checked) {
+    // Redirect to select_doctor page for choosing a doctor first
+    window.location.href = "/select_doctor";
+  }
+});
+
+
+    form.addEventListener("submit", function(event) {
+      if (existingYes.checked) {
+        const aadhar = document.getElementById("aadhar").value.trim();
+        if (aadhar.length !== 12 || !/^\d+$/.test(aadhar)) {
+          alert("Please enter a valid 12-digit Aadhaar number.");
+          event.preventDefault();
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

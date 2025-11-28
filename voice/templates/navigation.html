@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hospital Navigation Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Animated background images */
+.background-slide {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: fade 15s infinite;
+    opacity: 0;
+    z-index: -1;
+}
+
+.background-slide:nth-child(1) { 
+    background-image: url('https://images.unsplash.com/photo-1628372095387-017d1099fc19?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=687'); 
+    animation-delay: 0s;
+}
+.background-slide:nth-child(2) { 
+    background-image: url('https://images.unsplash.com/photo-1759038086454-5644437ccf4c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1074'); 
+    animation-delay: 5s;
+}
+.background-slide:nth-child(3) { 
+    background-image: url('https://images.unsplash.com/photo-1642211287936-073489b4dfa7?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170');
+}
+
+
+@keyframes fade {
+    0% {opacity: 0;}
+    20% {opacity: 1;}
+    50% {opacity: 1;}
+    70% {opacity: 0;}
+    100% {opacity: 0;}
+}
+
+.container {
+    background: #ffffffcc;
+    backdrop-filter: blur(10px);
+    padding: 40px 50px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 500px;
+    position: relative;
+    z-index: 1;
+}
+h1 { 
+    color: #1f3c88; 
+    margin-bottom: 15px; 
+    font-size: 28px; 
+}
+p.instruction { 
+    color: #333; 
+    font-size: 18px; 
+    margin-bottom: 25px; 
+}
+button {
+    background: #1f3c88; 
+    color: #fff; 
+    border: none;
+    padding: 15px 35px; 
+    font-size: 18px; 
+    border-radius: 12px; 
+    cursor: pointer;
+    transition: 0.3s;
+}
+button:hover { 
+    background: #2b4cb0; 
+}
+#response {
+    margin-top: 25px; 
+    font-size: 20px; 
+    font-weight: bold; 
+    color: #1f3c88;
+    min-height: 40px;
+}
+</style>
+</head>
+<body>
+
+<!-- Background slides -->
+<div class="background-slide"></div>
+<div class="background-slide"></div>
+<div class="background-slide"></div>
+
+<div class="container">
+    <h1>🏥 Hospital Navigation Assistant</h1>
+    <p class="instruction">Click 🎙 to speak the patient's name and find their room.</p>
+    <button onclick="askPatientName()">🎙 Speak</button>
+    <p id="response">Waiting for your query...</p>
+</div>
+
+<script>
+function askPatientName() {
+    const prompt = "Please say the patient's name now.";
+    const utterance = new SpeechSynthesisUtterance(prompt);
+    utterance.lang = 'en-US';
+    speechSynthesis.speak(utterance);
+    utterance.onend = () => startListening();
+}
+
+function startListening() {
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'en-US';
+    recognition.start();
+    recognition.onresult = function(event) {
+        const name = event.results[0][0].transcript;
+        document.getElementById("response").textContent = "You said: " + name;
+
+        fetch('/get_patient_room', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name })
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("response").textContent = data.response;
+            speak(data.response);
+        })
+        .catch(err => {
+            document.getElementById("response").textContent = "Error: " + err;
+        });
+    };
+}
+
+function speak(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    speechSynthesis.speak(utterance);
+}
+</script>
+
+</body>
+</html>

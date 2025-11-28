@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Book Appointment (Existing Patient)</title>
+  <style>
+    body, html {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(270deg, #c2d1d3, #e7ebf1, #e5edb6, #d0d3d6);
+      background-size: 800% 800%;
+      animation: gradientBG 30s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .container {
+      display: flex;
+      width: 900px;
+      max-width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .left-side {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .left-side img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .right-side {
+      flex: 1;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .right-side h2 {
+      text-align: center;
+      color: #007acc;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input[type="text"], input[type="email"], textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      background-color: #081e03;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #005f99; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-side">
+      <img src="/static/images/hospital.png" alt="Hospital illustration" />
+    </div>
+    <div class="right-side">
+      <h2>Book Appointment (Existing Patient)</h2>
+      <form action="/appointment_submit" method="POST">
+
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" value="{{ name }}" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" name="phone" value="{{ phone }}" required>
+
+        <label for="aadhar">Aadhar Number:</label>
+        <input type="text" id="aadhar" name="aadhar" value="{{ aadhar }}" readonly>
+
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" value="{{ email }}" required>
+
+        <label for="gender">Gender:</label>
+        <input type="text" id="gender" name="gender" value="{{ gender }}" required>
+
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age" value="{{ age or '' }}" required>
+
+
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" rows="4" required>{{ address }}</textarea>
+
+        <button type="submit">Confirm Appointment</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

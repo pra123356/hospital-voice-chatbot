@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hospital Chatbot</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #e5ddd5 !important; /* WhatsApp background */
+  }
+
+  #chatbox {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #user-input {
+    display: flex;
+    padding: 10px;
+    background: #f0f0f0;
+  }
+
+  #user-input input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+  }
+
+  #user-input button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
+    background-color: #25d366; /* WhatsApp green */
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .message {
+    max-width: 70%;
+    padding: 10px 15px;
+    margin: 5px 0;
+    border-radius: 20px;
+    word-wrap: break-word;
+    display: inline-block;
+    clear: both;
+  }
+
+  .user {
+    background-color: #dcf8c6; /* light green */
+    color: #000;
+    align-self: flex-end;
+    text-align: right;
+    border-bottom-right-radius: 0;
+  }
+
+  .bot {
+    background-color: #ffffff; /* white */
+    color: #000;
+    align-self: flex-start;
+    text-align: left;
+    border-bottom-left-radius: 0;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  }
+
+  /* Make iframe full width and take remaining chatbox height */
+  #embedded-page {
+    border: none;
+    width: 100%;
+    flex: 1; /* take remaining space in chatbox */
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div id="chatbox">
+  <div class="bot message">
+    Hello! I am your hospital assistant. How can I help you today?
+  </div>
+  <!-- Embedded index.html page -->
+  <iframe id="embedded-page" src="index.html" title="Hospital Homepage"></iframe>
+</div>
+
+<div id="user-input">
+  <input type="text" id="msg" placeholder="Type your message here..." />
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+async function sendMessage() {
+  let input = document.getElementById("msg");
+  let text = input.value.trim();
+  if (!text) return;
+  
+  // Display user message
+  let chatbox = document.getElementById("chatbox");
+  chatbox.innerHTML += `<div class="user message">${text}</div>`;
+  chatbox.scrollTop = chatbox.scrollHeight;
+  input.value = "";
+
+  // Send to Flask API
+  let res = await fetch("/chat", {
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({message:text})
+  });
+  let data = await res.json();
+
+  // Display bot reply
+  chatbox.innerHTML += `<div class="bot message">${data.reply}</div>`;
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+// Press Enter to send
+document.getElementById("msg").addEventListener("keypress", function(e){
+  if(e.key === "Enter") sendMessage();
+});
+</script>
+
+</body>
+</html>
+

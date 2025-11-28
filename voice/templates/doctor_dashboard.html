@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Doctor Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f9ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .dashboard {
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+      width: 350px;
+    }
+
+    .dashboard h2 {
+      margin-bottom: 10px;
+      font-size: 22px;
+      color: #333;
+    }
+
+    .dashboard p {
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .logout {
+      background-color: #dc3545;
+    }
+
+    .logout:hover {
+      background-color: #a71d2a;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <h2>Welcome, Dr. {{ doctor }} 👨‍⚕️</h2>
+    <p>Manage your availability below</p>
+    
+    <a href="{{ url_for('set_availability') }}" class="btn">Set Availability</a>
+    <a href="{{ url_for('doctor_view_availability') }}" class="btn">View Availability</a>
+    <a href="{{ url_for('doctor_logout') }}" class="btn logout">Logout</a>
+  </div>
+</body>
+</html>

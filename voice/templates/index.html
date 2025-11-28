@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Receptionist - Welcome</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #d6e9ff, #a7c8ff, #7fb3ff);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: linear-gradient(#ffffff);
+      border-radius: 25px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+      width: 1200px;
+      height: 580px;
+      padding: 60px 70px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .left {
+      flex: 1;
+      text-align: center;
+      border-right: 2px solid #e0e6f0;
+      padding-right: 40px;
+    }
+
+    .left h1 {
+      color: #004aad;
+      font-size: 50px;
+      margin-bottom: 20px;
+    }
+
+    .left p {
+      color: #444;
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .bot-image {
+      width: 300px;
+      height: 300px;
+      margin: 35px auto;
+      display: block;
+      border-radius: 50%;
+      background: #f2f6ff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      object-fit: cover;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .welcome-btn {
+      background-color: #963225;
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s ease;
+    }
+
+    .welcome-btn:hover {
+      background-color: #685ff0;
+      transform: translateY(-2px);
+    }
+
+    .right {
+      flex: 1.2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 35px;
+      justify-items: center;
+      margin-bottom: 35px;
+    }
+    .option {
+  text-decoration: none;
+  background: linear-gradient(135deg, #ffffff 0%, #e8f2ff 100%); /* white → soft blue wave */
+  border-radius: 20px;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s ease;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  border: 2px solid #d6dde8; /* soft border */
+}
+.option:hover {
+  background: linear-gradient(135deg, #e8f2ff 0%, #d6e9ff 100%);
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+}
+
+
+    .option img {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 12px;
+    }
+
+    .option span {
+      font-size: 16px;
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .doctor-login {
+      text-decoration: none;
+      background-color: #963225;
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 15px 90px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 35px;
+    }
+
+    .doctor-login img {
+      width: 30px;
+      height: 30px;
+    }
+
+    .doctor-login:hover {
+      background-color: #685ff0;
+      transform: translateY(-3px);
+    }
+
+    @media (max-width: 850px) {
+      .container {
+        flex-direction: column;
+        width: 90%;
+        height: auto;
+        padding: 30px;
+        text-align: center;
+      }
+
+      .left {
+        border-right: none;
+        border-bottom: 2px solid #e0e6f0;
+        padding-right: 0;
+        padding-bottom: 25px;
+      }
+
+      .bot-image {
+        width: 500px;
+        height: 500px;
+      }
+
+      .option {
+        width: 130px;
+        height: 120px;
+      }
+
+      .option img {
+        width: 45px;
+        height: 45px;
+      }
+
+      .doctor-login {
+        padding: 12px 60px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="left">
+      <h1>Welcome!</h1>
+      <p>Your AI Receptionist</p>
+      <img src="{{ url_for('static', filename='images/robot.png') }}" alt="Receptionist Bot" class="bot-image">
+      <button class="welcome-btn">Welcome to Our Hospital</button>
+    </div>
+
+    <div class="right">
+      <div class="options">
+
+        <a href="{{ url_for('view_availability') }}" class="option">
+          <img src="{{ url_for('static', filename='images/doctor.png') }}" alt="Doctor Availability">
+          <span>Doctor Availability</span>
+        </a>
+
+        <a href="{{ url_for('check_existing') }}" class="option">
+          <img src="{{ url_for('static', filename='images/calender.png') }}" alt="Appointment Booking">
+          <span>Appointment Booking</span>
+        </a>
+
+        <a href="{{ url_for('queue') }}" class="option">
+          <img src="{{ url_for('static', filename='images/queue.png') }}" alt="Queue">
+          <span>Your Queue</span>
+        </a>
+
+        <a href="{{ url_for('navigation') }}" class="option">
+          <img src="{{ url_for('static', filename='images/navigation.png') }}" alt="Navigation">
+          <span>Navigation</span>
+        </a>
+
+      </div>
+
+      <a href="{{ url_for('doctor_login') }}" class="doctor-login">
+        <img src="{{ url_for('static', filename='images/doctor.png') }}" alt="Doctor Login Icon">
+        <span>Doctor Login</span>
+      </a>
+
+    </div>
+  </div>
+</body>
+</html>
